@@ -1,0 +1,48 @@
+name: Create Firefox Extension XPI on Tag
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  release-xpi:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+
+      - name: Install web-ext
+        run: npm install --global web-ext
+
+      - name: Build Firefox Extension
+        run: web-ext build
+
+      - name: Sign Firefox Extension
+        run: |
+          web-ext sign \
+            --api-key=$WEB_EXT_API_KEY \
+            --api-secret=$WEB_EXT_API_SECRET
+        env:
+          WEB_EXT_API_KEY: ${{ secrets.WEB_EXT_API_KEY }}
+          WEB_EXT_API_SECRET: ${{ secrets.WEB_EXT_API_SECRET }}
+
+      - name: Rename XPI File
+        run: |
+          for file in ./web-ext-artifacts/*-*.xpi; do
+            mv "$file" "./web-ext-artifacts/go-links-for-firefox-v${file##*-}"
+          done
+
+      - name: Create Release
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            ./web-ext-artifacts/go-links*.xpi
+          token: ${{ secrets.GITHUB_TOKEN }}

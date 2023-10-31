@@ -1,0 +1,26 @@
+{
+  "description": "Enable Go-Links in Firefox",
+  "manifest_version": 2,
+  "name": "Go-Links for Firefox",
+  "version": "1.0.3",
+  "icons": {
+    "48": "icons/block-logo.gif",
+    "64": "icons/block-logo.gif"
+  },
+  "applications": {
+    "gecko": {
+      "id": "firefox-go-links-by-ohardt@squareup.com",
+      "strict_min_version": "48.0"
+    }
+  },
+  "permissions": [
+    "webRequest",
+    "webRequestBlocking",
+    "<all_urls>"
+  ],
+  "background": {
+    "scripts": [
+      "background.js"
+    ]
+  }
+}
