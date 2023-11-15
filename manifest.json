@@ -2,7 +2,7 @@
   "description": "Enable Go-Links in Firefox",
   "manifest_version": 2,
   "name": "Go-Links for Firefox",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "icons": {
     "48": "icons/block-logo.gif",
     "64": "icons/block-logo.gif"

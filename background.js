@@ -15,13 +15,12 @@ browser.webRequest.onBeforeRequest.addListener(
              */
             const queryParams = new URLSearchParams(url.search);
             const queryParamValue = queryParams.get("q");
-            if (url.hostname === "www.google.com" &&
-                url.pathname === "/search" &&
+            if ( (url.hostname === "www.google.com" || url.hostname === "duckduckgo.com") &&
                 queryParamValue && queryParamValue.startsWith("go/")) {
 
-                const decodedQueryParam = decodeURIComponent(queryParams.get("q"));
+                const decodedQueryParam = decodeURIComponent(queryParamValue);
                 const keywordMatch = decodedQueryParam.match(/go\/(.+)/);
-                if (keywordMatch) {
+                if (keywordMatch && keywordMatch.length > 1) {
                     goLinkKeyword = keywordMatch[1];
                 }
             }
